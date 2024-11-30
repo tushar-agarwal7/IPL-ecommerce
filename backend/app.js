@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const rootRouter = require("./src/router/index");
+const User = require('./src/models/User');
 
 
 const app = express();
@@ -27,8 +28,18 @@ mongoose.connect('mongodb://localhost:27017/authDB')
     res.send("helo")
   })
 
+  app.get('/allUsers', async (req, res) => {
+    try {
+      const users = await User.find({}, '-password'); 
+      res.status(200).json(users); 
+    } catch (e) {
+      console.error("Error fetching users:", e.message); 
+      res.status(500).json({ msg: "Error occurred while fetching users", error: e.message }); 
+    }
+  });
 
-
+  
+app.use("/api/v1", rootRouter);
 
 
 
