@@ -116,7 +116,7 @@ export default function Hero() {
               layout="responsive" 
               width={320}
               height={380}
-              className="object-contain rounded-lg mb-4 relative z-10"
+              className="object-contain rounded-xl mb-4 relative z-10"
             />
           </motion.div>
         </CarouselItem>

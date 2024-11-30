@@ -1,14 +1,29 @@
-'use client'
+"use client";
+
 import { Heart, Menu, Search, ShoppingBag } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { UserDropdown } from "./UserDropdown";
 import Image from "next/image";
 
+
+type User = {
+  name: string;
+  email: string;
+  image?: string; 
+};
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const user = true; // Replace with your authentication logic
+  const [user, setUser] = useState<User | null>(null); 
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); 
+    }
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -18,7 +33,7 @@ const Navbar = () => {
     <header className="bg-black shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
-          {/* Logo and Title */}
+       
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-10 h-10">
               <Image
@@ -29,14 +44,11 @@ const Navbar = () => {
                 priority
               />
             </div>
-            <h1 className="text-2xl font-bold text-white">
-              IPL
-            </h1>
+            <h1 className="text-2xl font-bold text-white">IPL</h1>
           </Link>
 
           {/* Primary Actions */}
           <div className="hidden md:flex items-center gap-6">
-           
             <Link
               href="/bag"
               aria-label="Shopping Bag"
@@ -45,13 +57,18 @@ const Navbar = () => {
               <ShoppingBag size={20} />
             </Link>
             <div>
-              {user ? (
-                <UserDropdown email="user@example.com" name="John Doe" userImage="/user-avatar.png" />
+            {user ? (
+                <UserDropdown
+                  email={user.email}
+                  name={user.name}
+                  userImage={user.image || "/logo.png"}
+                />
               ) : (
                 <Button variant="ghost" asChild>
                   <Link href="/login">Login</Link>
                 </Button>
-              )}
+)}
+             
             </div>
           </div>
 
@@ -94,7 +111,11 @@ const Navbar = () => {
             </Link>
             <div>
               {user ? (
-                <UserDropdown email="user@example.com" name="John Doe" userImage="/user-avatar.png" />
+                <UserDropdown
+                  email={user.email}
+                  name={user.name}
+                  userImage={user.image || "/logo.png"}
+                />
               ) : (
                 <Button variant="ghost" asChild>
                   <Link href="/login">Login</Link>
