@@ -23,12 +23,28 @@ export default function ProductSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All'); // Type for selectedCategory
   const [sortBy, setSortBy] = useState<string>('featured'); // Type for sortBy
   const { theme } = useTheme();
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Type for isLoading
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
+  const [userTeam, setUserTeam] = useState<string>('');
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user); // Parse the user object first
+      const storedUserTeam = parsedUser?.team; // Access the team property
+      console.log(storedUserTeam);
+      if (storedUserTeam) {
+        setUserTeam(storedUserTeam); // Set the team state
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!userTeam) return; 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('http://localhost:8080/api/v1/products/all'); // Type the API response
+        const response = await axios.get<Product[]>('http://localhost:8080/api/v1/products/all',{
+          params: { team: userTeam }
+        }); // Type the API response
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -39,7 +55,7 @@ export default function ProductSection() {
     };
 
     fetchProducts();
-  }, []);
+  }, [userTeam]);
 
   const PRODUCT_CATEGORIES = ['All', ...new Set(products.map(product => product.team))];
 

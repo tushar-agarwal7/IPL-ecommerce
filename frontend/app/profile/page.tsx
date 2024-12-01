@@ -202,7 +202,7 @@ export default function ProfilePage() {
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a team" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-zinc-700 opacity-100 text-white'>
                   {Object.entries(IPL_TEAM_COLORS).map(([key, { name }]) => (
                     <SelectItem key={key} value={key}>
                       {name}
