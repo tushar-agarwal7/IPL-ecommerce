@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Menu, Search, ShoppingBag } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <UserDropdown
                   email={user.email}
                   name={user.name}
-                  userImage={user.image || "/logo.png"}
+                  userImage={user.image || "/avatar-placeholder.png"}
                 />
               ) : (
                 <Button variant="ghost" asChild>
@@ -85,7 +85,7 @@ const Navbar = () => {
           <button
             onClick={toggleMenu}
             aria-label="Menu"
-            className="md:hidden p-2 hover:bg-gray-100 rounded-full"
+            className="md:hidden p-2  rounded-full"
           >
             <Menu size={24} />
           </button>
@@ -125,11 +125,13 @@ const Navbar = () => {
             </Link>
             <div>
               {user ? (
-                <UserDropdown
-                  email={user.email}
-                  name={user.name}
-                  userImage={user.image || "/logo.png"}
-                />
+             <UserDropdown
+             email={user.email}
+             name={user.name}
+             userImage={user.image || "https://ui-avatars.com/api/?name=User&background=random"}
+           />
+           
+            
               ) : (
                 <Button variant="ghost" asChild>
                   <Link href="/login">Login</Link>

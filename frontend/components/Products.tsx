@@ -99,110 +99,110 @@ export default function ProductSection() {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-4 py-16"
-      style={{
-        background: theme
-          ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
-          : 'transparent'
-      }}
+    className="max-w-7xl mx-auto px-4 py-16"
+    style={{
+      background: theme
+        ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
+        : 'transparent'
+    }}
+  >
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-12"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12"
+      <h1
+        className="mt-6 px-6 py-3 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl sm:text-3xl md:text-4xl lg:text-5xl transition"
+        style={{
+          color: theme ? theme.textColor : 'inherit'
+        }}
       >
-        <h1
-          className="mt-6 px-6 py-3 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl transition"
+        All Products
+      </h1>
+    </motion.div>
+
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            delayChildren: 0.2,
+            staggerChildren: 0.1
+          }
+        }
+      }}
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      {sortedProducts.map((product) => (
+        <motion.div
+          key={product.id}
+          variants={{
+            hidden: { y: 20, opacity: 0 },
+            visible: { y: 0, opacity: 1 }
+          }}
+          whileHover={{ scale: 1.05 }}
+          className="rounded-2xl shadow-lg overflow-hidden group"
           style={{
-            color: theme ? theme.textColor : 'inherit'
+            backgroundColor: theme
+              ? `${theme.primaryColor}20`
+              : 'bg-gray-950'
           }}
         >
-          All Products
-        </h1>
-      </motion.div>
-
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: {
-              delayChildren: 0.2,
-              staggerChildren: 0.1
-            }
-          }
-        }}
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
-      >
-        {sortedProducts.map((product) => (
-          <motion.div
-            key={product.id}
-            variants={{
-              hidden: { y: 20, opacity: 0 },
-              visible: { y: 0, opacity: 1 }
-            }}
-            whileHover={{ scale: 1.05 }}
-            className="rounded-2xl shadow-lg overflow-hidden group"
-            style={{
-              backgroundColor: theme
-                ? `${theme.primaryColor}20`
-                : 'bg-gray-950'
-            }}
-          >
-            <div className="relative aspect-square">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <div className="p-4">
-              <div className="flex justify-between items-center mb-2">
-                <h3
-                  className="font-bold text-lg"
-                  style={{ color: theme ? theme.textColor : 'white' }}
-                >
-                  {product.name}
-                </h3>
-                <div className="flex items-center text-yellow-500">
-                  <Star className="w-4 h-4 mr-1 fill-current" />
-                  <span className="text-sm">{product.rating}</span>
-                </div>
-              </div>
-              <p
-                className="text-gray-500 text-sm mb-4 line-clamp-2"
-                style={{ color: theme ? `${theme.textColor}80` : 'text-gray-500' }}
+          <div className="relative aspect-square">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <div className="p-4">
+            <div className="flex justify-between items-center mb-2">
+              <h3
+                className="font-bold text-lg sm:text-base"
+                style={{ color: theme ? theme.textColor : 'white' }}
               >
-                {product.description}
-              </p>
-              <div className="flex justify-between items-center">
-                <span
-                  className="text-xl font-bold text-black"
-                >
-                  {product.price}
-                </span>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className={`hover:opacity-90 group ${theme
-                      ? `bg-[${theme.primaryColor}] text-[${theme.textColor}] hover:bg-[${theme.secondaryColor}]`
-                      : "bg-blue-600 text-white hover:bg-blue-700"
-                    }`}
-                >
-                  <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce" />
-                  Add to Cart
-                </Button>
-
+                {product.name}
+              </h3>
+              <div className="flex items-center text-yellow-500">
+                <Star className="w-4 h-4 mr-1 fill-current" />
+                <span className="text-sm">{product.rating}</span>
               </div>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
+            <p
+              className="text-gray-500 text-sm mb-4 line-clamp-2 sm:text-xs"
+              style={{ color: theme ? `${theme.textColor}80` : 'text-gray-500' }}
+            >
+              {product.description}
+            </p>
+            <div className="flex justify-between items-center">
+              <span
+                className="text-xl font-bold text-black sm:text-lg"
+              >
+                {product.price}
+              </span>
+              <Button
+                variant="default"
+                size="sm"
+                className={`hover:opacity-90 group ${theme
+                    ? `bg-[${theme.primaryColor}] text-[${theme.textColor}] hover:bg-[${theme.secondaryColor}]`
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                  }`}
+              >
+                <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce" />
+                Add to Cart
+              </Button>
+
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  </section>
   );
 }

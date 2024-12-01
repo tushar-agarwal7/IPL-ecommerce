@@ -71,6 +71,10 @@ export function UserDropdown({ email, name, userImage }: iAppProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
+          <Link href='/profile'> View Your Profile</Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem asChild>
          <Button className="bg-black text-white" onClick={handleLogout}>Logout</Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

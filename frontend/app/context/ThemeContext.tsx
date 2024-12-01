@@ -15,103 +15,128 @@ export interface TeamTheme {
   };
 }
 export const IPL_TEAM_THEMES: Record<string, TeamTheme> = {
-    RCB: {
-      name: 'Royal Challengers Bangalore',
-      primaryColor: '#D12028', // Bright Red
-      secondaryColor: '#1B1B1B', // Deep Black
-      textColor: '#FFFFFF', // White for contrast
-      backgroundColor: '#D1202810', // Transparent Red
-      logo: '/logos/rcb-logo.png',
-      gradient: {
-        from: '#D12028',
-        to: '#8E0C12', // Deep Crimson
-      },
+  RCB: {
+    name: 'Royal Challengers Bangalore',
+    primaryColor: '#D12028',
+    secondaryColor: '#1B1B1B',
+    textColor: '#FFFFFF',
+    backgroundColor: '#D1202810',
+    logo: '/logos/rcb-logo.png',
+    gradient: {
+      from: '#D12028',
+      to: '#8E0C12',
     },
-    MI: {
-      name: 'Mumbai Indians',
-      primaryColor: '#045CB5', // Royal Blue
-      secondaryColor: '#FFD700', // Gold
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#045CB520', // Transparent Blue
-      logo: '/logos/mumbai-logo.png',
-      gradient: {
-        from: '#045CB5',
-        to: '#012A6D', // Dark Navy
-      },
+  },
+  MI: {
+    name: 'Mumbai Indians',
+    primaryColor: '#045CB5',
+    secondaryColor: '#FFD700',
+    textColor: '#FFFFFF',
+    backgroundColor: '#045CB520',
+    logo: '/logos/mumbai-logo.png',
+    gradient: {
+      from: '#045CB5',
+      to: '#012A6D',
     },
-    CSK: {
-      name: 'Chennai Super Kings',
-      primaryColor: '#FFD600', // Bright Yellow
-      secondaryColor: '#1A1A1A', // Dark Black
-      textColor: '#1A1A1A', // Black for contrast
-      backgroundColor: '#FFD60010', // Transparent Yellow
-      logo: '/logos/csk-logo.png',
-      gradient: {
-        from: '#FFD600',
-        to: '#FFC300', // Golden Yellow
-      },
+  },
+  CSK: {
+    name: 'Chennai Super Kings',
+    primaryColor: '#FFD600',
+    secondaryColor: '#1A1A1A',
+    textColor: '#1A1A1A',
+    backgroundColor: '#FFD60010',
+    logo: '/logos/csk-logo.png',
+    gradient: {
+      from: '#FFD600',
+      to: '#FFC300',
     },
-    SRH: {
-      name: 'Sunrisers Hyderabad',
-      primaryColor: '#F15A24', // Vivid Orange
-      secondaryColor: '#231F20', // Charcoal Black
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#F15A2420', // Transparent Orange
-      logo: '/logos/srh-logo.png',
-      gradient: {
-        from: '#F15A24',
-        to: '#C7461C', // Deep Orange
-      },
+  },
+  SRH: {
+    name: 'Sunrisers Hyderabad',
+    primaryColor: '#F15A24',
+    secondaryColor: '#231F20',
+    textColor: '#FFFFFF',
+    backgroundColor: '#F15A2420',
+    logo: '/logos/srh-logo.png',
+    gradient: {
+      from: '#F15A24',
+      to: '#C7461C',
     },
-    RR: {
-      name: 'Rajasthan Royals',
-      primaryColor: '#E91E63', // Vibrant Pink
-      secondaryColor: '#FFFFFF', // White
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#E91E6310', // Transparent Pink
-      logo: '/logos/rr-logo.png',
-      gradient: {
-        from: '#E91E63',
-        to: '#AD1457', // Deep Magenta
-      },
+  },
+  RR: {
+    name: 'Rajasthan Royals',
+    primaryColor: '#E91E63',
+    secondaryColor: '#FFFFFF',
+    textColor: '#FFFFFF',
+    backgroundColor: '#E91E6310',
+    logo: '/logos/rr-logo.png',
+    gradient: {
+      from: '#E91E63',
+      to: '#AD1457',
     },
-    KKR: {
-      name: 'Kolkata Knight Riders',
-      primaryColor: '#4B0082', // Royal Purple
-      secondaryColor: '#FFD700', // Gold
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#4B008210', // Transparent Purple
-      logo: '/logos/kkr-logo.png',
-      gradient: {
-        from: '#4B0082',
-        to: '#301934', // Deep Violet
-      },
+  },
+  KKR: {
+    name: 'Kolkata Knight Riders',
+    primaryColor: '#4B0082',
+    secondaryColor: '#FFD700',
+    textColor: '#FFFFFF',
+    backgroundColor: '#4B008210',
+    logo: '/logos/kkr-logo.png',
+    gradient: {
+      from: '#4B0082',
+      to: '#301934',
     },
-    LSG: {
-      name: 'Lucknow Super Giants',
-      primaryColor: '#28A745', // Fresh Green
-      secondaryColor: '#1A1A1A', // Deep Black
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#28A74510', // Transparent Green
-      logo: '/logos/lsg-logo.png',
-      gradient: {
-        from: '#28A745',
-        to: '#156D34', // Forest Green
-      },
+  },
+  LSG: {
+    name: 'Lucknow Super Giants',
+    primaryColor: '#28A745',
+    secondaryColor: '#1A1A1A',
+    textColor: '#FFFFFF',
+    backgroundColor: '#28A74510',
+    logo: '/logos/lsg-logo.png',
+    gradient: {
+      from: '#28A745',
+      to: '#156D34',
     },
-    DC: {
-      name: 'Delhi Capitals',
-      primaryColor: '#0047AB', // Sapphire Blue
-      secondaryColor: '#1A1A1A', // Deep Black
-      textColor: '#FFFFFF', // White
-      backgroundColor: '#0047AB10', // Transparent Teal
-      logo: '/logos/dc-logo.png',
-      gradient: {
-        from: '#0047AB',
-        to: '#002D66', // Midnight Blue
-      },
+  },
+  DC: {
+    name: 'Delhi Capitals',
+    primaryColor: '#0047AB',
+    secondaryColor: '#1A1A1A',
+    textColor: '#FFFFFF',
+    backgroundColor: '#0047AB10',
+    logo: '/logos/dc-logo.png',
+    gradient: {
+      from: '#0047AB',
+      to: '#002D66',
     },
-  };
+  },
+  PBKS: {
+    name: 'Punjab Kings',
+    primaryColor: '#ED1B24', // Fiery Red
+    secondaryColor: '#D1C4E9', // Light Purple
+    textColor: '#FFFFFF', // White
+    backgroundColor: '#ED1B2410', // Transparent Red
+    logo: '/logos/pbks-logo.png',
+    gradient: {
+      from: '#ED1B24',
+      to: '#A10E15', // Deep Red
+    },
+  },
+  GT: {
+    name: 'Gujarat Titans',
+    primaryColor: '#1C4D70', // Midnight Blue
+    secondaryColor: '#E4B800', // Gold
+    textColor: '#FFFFFF', // White
+    backgroundColor: '#1C4D7010', // Transparent Blue
+    logo: '/logos/gt-logo.png',
+    gradient: {
+      from: '#1C4D70',
+      to: '#102A44', // Deep Navy
+    },
+  },
+};
+;
   
 // Theme Context
 interface ThemeContextType {

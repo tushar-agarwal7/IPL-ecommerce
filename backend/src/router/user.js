@@ -6,8 +6,6 @@ const bcrypt = require("bcryptjs");
 const User = require('../models/User');
 require('dotenv').config();
 
-
-
 const IPL_TEAM_COLORS = {
     red: { name: 'RCB', color: '#ff0000', logo: 'url-to-rcb-logo' },
     blue: { name: 'MI', color: '#004ba0', logo: 'url-to-mi-logo' },
@@ -17,7 +15,10 @@ const IPL_TEAM_COLORS = {
     purple: { name: 'KKR', color: '#800080', logo: 'url-to-kkr-logo' },
     green: { name: 'LSG', color: '#00ff00', logo: 'url-to-lsg-logo' },
     teal: { name: 'DC', color: '#008080', logo: 'url-to-dc-logo' },
-  };
+    navy: { name: 'GT', color: '#003366', logo: 'url-to-gt-logo' }, // Gujarat Titans
+    maroon: { name: 'PBKS', color: '#800000', logo: 'url-to-pbks-logo' } // Punjab Kings
+};
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "tushar";  
 
@@ -34,6 +35,22 @@ const signinBody = z.object({
     password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
 
+
+const authenticateUser = (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1]; // Get the token from the `Authorization` header
+    if (!token) {
+        return res.status(401).json({ msg: "No token provided, access denied" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET); // Decode the token
+        req.user = decoded; // Attach the user info to the request
+        next(); // Proceed to the next middleware/route handler
+    } catch (error) {
+        console.error("JWT authentication error:", error);
+        return res.status(401).json({ msg: "Invalid token, access denied" });
+    }
+};
 
 
 
@@ -128,6 +145,51 @@ router.post("/signin", async (req, res) => {
     } catch (err) {
         console.error("Error during signin:", err.message);
         return res.status(500).json({ msg: "Server error during signin" });
+    }
+});
+
+router.put("/update-team",authenticateUser,  async (req, res) => {
+    try {
+      
+
+        const { color } = req.body;
+        const userId = req.user.userId;
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
+        // Update team based on color
+        const newTeam = IPL_TEAM_COLORS[color].name;
+        
+        // Update user's team
+        user.team = newTeam;
+        await user.save();
+
+        // Generate new token with updated user info
+        const token = jwt.sign(
+            { userId: user._id },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Respond with updated user info
+        return res.status(200).json({
+            msg: "Team updated successfully",
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                team: user.team,
+                id: user._id
+            }
+        });
+
+    } catch (error) {
+        console.error("Error during team update:", error);
+        return res.status(500).json({ msg: "Server error during team update" });
     }
 });
 
