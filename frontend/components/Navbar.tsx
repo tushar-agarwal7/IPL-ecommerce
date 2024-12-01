@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { UserDropdown } from "./UserDropdown";
 import Image from "next/image";
+import { useTheme } from "@/app/context/ThemeContext";
 
 
 type User = {
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null); 
 
+  const { theme } = useTheme(); // Use theme context
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -30,22 +32,29 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-black shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
-       
-          <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-10 h-10">
-              <Image
-                src="/logo.png"
-                alt="Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-            <h1 className="text-2xl font-bold text-white">IPL</h1>
-          </Link>
+    <header 
+    className="shadow-md sticky top-0 z-50"
+    style={{ 
+      backgroundColor: theme ? theme.primaryColor : 'black',
+      color: theme ? theme.textColor : 'white'
+    }}
+  >
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-between py-4">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="relative w-10 h-10">
+            <Image
+              src={theme ? theme.logo : "/logo.png"}
+              alt="Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <h1 className="text-2xl font-bold">
+            {theme ? theme.name : 'IPL'}
+          </h1>
+        </Link>
 
           {/* Primary Actions */}
           <div className="hidden md:flex items-center gap-6">
@@ -85,7 +94,12 @@ const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       {menuOpen && (
-        <div className="md:hidden bg-white shadow-lg absolute top-full inset-x-0">
+        <div className="md:hidden  shadow-lg absolute top-full inset-x-0"
+        style={{ 
+          backgroundColor: theme ? theme.primaryColor : 'black',
+          color: theme ? theme.textColor : 'white'
+        }}
+        >
           <div className="flex flex-col items-start gap-4 p-4">
             <button
               aria-label="Search"

@@ -11,6 +11,7 @@ import {
   CarouselItem, 
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
+import { useTheme } from '@/app/context/ThemeContext';
 
 const PRODUCTS = [
   {
@@ -40,10 +41,17 @@ export default function Hero() {
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false })
   );
+  const { theme } = useTheme(); 
 
   return (
-    <div className="relative h-[500px] md:h-[600px] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-r from-blue-900/90 to-indigo-900/90">
-      <Image
+    <div 
+    className="relative h-[500px] md:h-[600px] max-w-7xl mx-auto rounded-3xl mt-10 overflow-hidden shadow-2xl"
+    style={{
+      background: theme 
+        ? `linear-gradient(to bottom right, ${theme.gradient.from}, ${theme.gradient.to})`
+        : 'linear-gradient(to right, #1e3a8a, #4338ca)'
+    }}
+  >      <Image
         src="/cricket.jpg"
         alt="IPL Merchandise Store"
         fill
@@ -76,15 +84,19 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 justify-center lg:justify-start">
-            <Button 
-              variant="default" 
-              size="lg" 
-              className="bg-yellow-500 text-blue-900 hover:bg-yellow-400 transition-all transform hover:scale-105 group"
-            >
-              <ShoppingCart className="mr-2" /> Shop Now 
-              <ArrowRight className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </Button>
-          </div>
+        <Button 
+          variant="default" 
+          size="lg" 
+          style={{
+            backgroundColor: theme ? theme.primaryColor : '#yellow-500',
+            color: theme ? theme.textColor : '#1e3a8a'
+          }}
+          className="hover:bg-opacity-90 transition-all transform hover:scale-105 group"
+        >
+          <ShoppingCart className="mr-2" /> Shop Now 
+          <ArrowRight className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </Button>
+      </div>
         </motion.div>
         
 <motion.div 

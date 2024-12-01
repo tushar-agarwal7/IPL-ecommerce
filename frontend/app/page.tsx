@@ -7,14 +7,15 @@ import ProductSection from "@/components/Products";
 import Signup from "@/components/Signup";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster"
+import { useTheme } from "./context/ThemeContext"; // Import theme context
+
 export default function Home() {
   const router = useRouter();
+  const { theme } = useTheme(); // Use theme context
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    // Check user from localStorage when component mounts
     const storedUser = localStorage.getItem('user');
-    
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
@@ -28,10 +29,8 @@ export default function Home() {
 
   useEffect(() => {
     if (!user) {
-      // Redirect to the signup page if the user is not logged in
       router.push("/signup");
     } else {
-      // If the user is logged in, ensure they're on the home page
       router.push("/");
     }
   }, [user, router]);
@@ -41,14 +40,29 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main className="bg-black">
+    <div className="min-h-screen font-serif ">
+    <Navbar />
+    <main 
+      className="bg-black"
+      style={{
+        background: theme 
+          ? `linear-gradient(to bottom right, ${theme.gradient.from}, ${theme.gradient.to})`
+          : 'black'
+      }}
+    >
+      <div className="text-center py-4">
+        <h2 
+          className="text-2xl font-bold🎉🎊 font-mono"
+          style={{ color: theme?.textColor }}
+        >
+          Welcome to the {theme?.name || 'IPL'} Fan Store! 🎉🎊
+        </h2>
+      </div>
       <Toaster />
-        <Hero />
-        <ProductSection />
-      </main>
-      <Footer />
-    </div>
+      <Hero />
+      <ProductSection />
+    </main>
+    <Footer />
+  </div>
   );
 }

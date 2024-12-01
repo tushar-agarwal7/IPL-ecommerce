@@ -127,7 +127,6 @@ const Signup = () => {
                 password: formData.password,
                 color: formData.color,
             }, {
-                // Add this to log any axios-level errors
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -137,7 +136,6 @@ const Signup = () => {
             console.log("Response status:", response.status);
             console.log("Response data:", response.data);
     
-            // Check the exact condition for successful signup
             if (response.data.msg === "User account created successfully") {
                 console.log("Signup successful!");
                 
@@ -149,11 +147,13 @@ const Signup = () => {
                     router.push("/");
           
                   }, 2000);
+                  setTimeout(() => {
+                    toast(response.data.user.team+" assigned successfully")
+                  }, 2000);
             }
         } catch (error: any) {
             console.error("Signup ERROR:", error);
             
-            // Detailed error logging
             if (error.response) {
                 console.error("Error response:", error.response.data);
                 console.error("Error status:", error.response.status);
@@ -164,7 +164,6 @@ const Signup = () => {
                 console.error("Error", error.message);
             }
     
-            // Handle different error scenarios
             if (error.response && error.response.data.errors) {
                 error.response.data.errors.forEach((err: any) => {
                     toast.error(err.message);

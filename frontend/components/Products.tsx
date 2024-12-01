@@ -3,17 +3,18 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { 
-  ShoppingCart, 
-  Heart, 
-  Star, 
-  Filter 
+import {
+  ShoppingCart,
+  Heart,
+  Star,
+  Filter
 } from 'lucide-react';
+import { useTheme } from '@/app/context/ThemeContext';
 
 const PRODUCT_CATEGORIES = [
-  'Jerseys', 
-  'Accessories', 
-  'Collectibles', 
+  'Jerseys',
+  'Accessories',
+  'Collectibles',
   'Fan Gear'
 ];
 
@@ -77,13 +78,14 @@ const PRODUCTS = [
 export default function ProductSection() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('featured');
+  const { theme } = useTheme();
 
-  const filteredProducts = selectedCategory === 'All' 
-    ? PRODUCTS 
+  const filteredProducts = selectedCategory === 'All'
+    ? PRODUCTS
     : PRODUCTS.filter(product => product.category === selectedCategory);
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch(sortBy) {
+    switch (sortBy) {
       case 'price-low':
         return parseInt(a.price.replace('₹', '')) - parseInt(b.price.replace('₹', ''));
       case 'price-high':
@@ -96,31 +98,41 @@ export default function ProductSection() {
   });
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-16 ">
-      <motion.div 
+    <section
+      className="max-w-7xl mx-auto px-4 py-16"
+      style={{
+        background: theme
+          ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
+          : 'transparent'
+      }}
+    >
+      <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-         
-      <h1 className="mt-6 px-6 py-3 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl transition">
-        All Products 
-      </h1>
-   
+        <h1
+          className="mt-6 px-6 py-3 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl transition"
+          style={{
+            color: theme ? theme.textColor : 'inherit'
+          }}
+        >
+          All Products
+        </h1>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={{
           hidden: { opacity: 0 },
-          visible: { 
+          visible: {
             opacity: 1,
-            transition: { 
+            transition: {
               delayChildren: 0.2,
-              staggerChildren: 0.1 
+              staggerChildren: 0.1
             }
           }
         }}
@@ -134,38 +146,58 @@ export default function ProductSection() {
               visible: { y: 0, opacity: 1 }
             }}
             whileHover={{ scale: 1.05 }}
-            className=" rounded-2xl shadow-lg overflow-hidden group bg-gray-950"
+            className="rounded-2xl shadow-lg overflow-hidden group"
+            style={{
+              backgroundColor: theme
+                ? `${theme.primaryColor}20`
+                : 'bg-gray-950'
+            }}
           >
             <div className="relative aspect-square">
-              <Image 
+              <Image
                 src={product.image}
                 alt={product.name}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />
-             
             </div>
             <div className="p-4">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-bold text-lg text-white">{product.name}</h3>
+                <h3
+                  className="font-bold text-lg"
+                  style={{ color: theme ? theme.textColor : 'white' }}
+                >
+                  {product.name}
+                </h3>
                 <div className="flex items-center text-yellow-500">
                   <Star className="w-4 h-4 mr-1 fill-current" />
                   <span className="text-sm">{product.rating}</span>
                 </div>
               </div>
-              <p className="text-gray-500 text-sm mb-4 line-clamp-2">
+              <p
+                className="text-gray-500 text-sm mb-4 line-clamp-2"
+                style={{ color: theme ? `${theme.textColor}80` : 'text-gray-500' }}
+              >
                 {product.description}
               </p>
               <div className="flex justify-between items-center">
-                <span className="text-xl font-bold text-blue-600">{product.price}</span>
-                <Button 
-                  variant="default" 
-                  size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 group"
+                <span
+                  className="text-xl font-bold text-black"
                 >
-                  <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce" /> 
+                  {product.price}
+                </span>
+                <Button
+                  variant="default"
+                  size="sm"
+                  className={`hover:opacity-90 group ${theme
+                      ? `bg-[${theme.primaryColor}] text-[${theme.textColor}] hover:bg-[${theme.secondaryColor}]`
+                      : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
+                >
+                  <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce" />
                   Add to Cart
                 </Button>
+
               </div>
             </div>
           </motion.div>
