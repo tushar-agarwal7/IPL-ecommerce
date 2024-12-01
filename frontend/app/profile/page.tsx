@@ -86,6 +86,7 @@ export default function ProfilePage() {
 
     fetchUserData();
   }, []);
+  const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleTeamChange = async () => {
     try {
@@ -97,7 +98,7 @@ export default function ProfilePage() {
       }
 
       const response = await axios.put(
-        'http://localhost:8080/api/v1/user/update-team',
+        `${BACKEND_URL}/api/v1/user/update-team`,
         { color: selectedColor },
         {
           headers: {

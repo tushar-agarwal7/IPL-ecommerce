@@ -121,6 +121,8 @@ const Signup: React.FC = () => {
         setIsTeamModalOpen(false);
     };
 
+    const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -131,7 +133,7 @@ const Signup: React.FC = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/user/signup', {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
                 name,
                 email,
                 password,

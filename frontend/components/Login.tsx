@@ -35,6 +35,7 @@ const Signin = () => {
             [name]: value,
         }));
     };
+    const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -48,7 +49,7 @@ const Signin = () => {
         console.log("form", formData);
  
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/user/signin', {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
                 email: formData.email,
                 password: formData.password,
             });

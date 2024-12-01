@@ -37,12 +37,14 @@ export default function ProductSection() {
       }
     }
   }, []);
+  const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL;
+
 
   useEffect(() => {
     if (!userTeam) return; 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('http://localhost:8080/api/v1/products/all',{
+        const response = await axios.get<Product[]>(`${BACKEND_URL}/api/v1/products/all`,{
           params: { team: userTeam }
         }); // Type the API response
         setProducts(response.data);
