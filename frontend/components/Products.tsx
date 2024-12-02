@@ -1,9 +1,9 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Trash2 } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
 import axios from 'axios';
 import { toast, Toaster } from 'sonner';
@@ -18,35 +18,43 @@ interface Product {
   description: string;
 }
 
+interface CartItem extends Product {
+  quantity: number;
+}
+
 export default function ProductSection() {
-  const [products, setProducts] = useState<Product[]>([]); // Define type for products state
-  const [selectedCategory, setSelectedCategory] = useState<string>('All'); // Type for selectedCategory
-  const [sortBy, setSortBy] = useState<string>('featured'); // Type for sortBy
+  const [products, setProducts] = useState<Product[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [sortBy, setSortBy] = useState<string>('featured');
   const { theme } = useTheme();
-  const [isLoading, setIsLoading] = useState<boolean>(true); 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userTeam, setUserTeam] = useState<string>('');
 
   useEffect(() => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+
     const user = localStorage.getItem('user');
     if (user) {
-      const parsedUser = JSON.parse(user); // Parse the user object first
-      const storedUserTeam = parsedUser?.team; // Access the team property
-      console.log(storedUserTeam);
+      const parsedUser = JSON.parse(user);
+      const storedUserTeam = parsedUser?.team;
       if (storedUserTeam) {
-        setUserTeam(storedUserTeam); // Set the team state
+        setUserTeam(storedUserTeam);
       }
     }
   }, []);
-  const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL;
 
-
+  const BACKEND_URL = useMemo(() => process.env.NEXT_PUBLIC_BACKEND_URL, []);
   useEffect(() => {
     if (!userTeam) return; 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>(`${BACKEND_URL}/api/v1/products/all`,{
+        const response = await axios.get<Product[]>(`${BACKEND_URL}/api/v1/products/all`, {
           params: { team: userTeam }
-        }); // Type the API response
+        });
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -58,6 +66,30 @@ export default function ProductSection() {
 
     fetchProducts();
   }, [userTeam]);
+
+  // Cart functionality
+  const addToCart = (product: Product) => {
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item._id === product._id);
+      
+      let newCart;
+      if (existingItem) {
+        newCart = prevCart.map(item => 
+          item._id === product._id 
+            ? {...item, quantity: item.quantity + 1}
+            : item
+        );
+      } else {
+        newCart = [...prevCart, {...product, quantity: 1}];
+      }
+
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      
+      toast.success(`${product.name} added to cart`);
+      
+      return newCart;
+    });
+  };
 
   const PRODUCT_CATEGORIES = ['All', ...new Set(products.map(product => product.team))];
 
@@ -86,20 +118,21 @@ export default function ProductSection() {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-4 py-16 flex flex-col "
+      className="max-w-7xl mx-auto px-4 py-16 flex flex-col relative"
       style={{
         background: theme
           ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
           : 'transparent'
       }}
     >
-         <Link href='/' className="mt-6 px-6 py-3  text-center mb-5 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl transition">
-        All Products
-      </Link>
       <Toaster />
-   
+
       
-      
+  
+
+      <h1 className="mt-6 px-6 py-3 text-center mb-5 font-bold border rounded-xl bg-gradient-to-t from-neutral-800 to-neutral-100 bg-clip-text text-transparent text-4xl transition">
+        All Products
+      </h1>
 
       <motion.div
         initial="hidden"
@@ -160,18 +193,26 @@ export default function ProductSection() {
                 {product.description}
               </p>
               <div className="flex justify-between items-center">
-                <span className="text-xl font-bold text-black sm:text-lg">
+                <span className="text-xl font-bold text-black sm:text-lg"
+                style={{
+                  color: theme ? theme.textColor : 'white'
+                }}
+                >
                   ₹{product.price}
                 </span>
                 <Button
                   variant="default"
                   size="sm"
+                  onClick={() => addToCart(product)}
                   className={`hover:opacity-90 group ${theme
                     ? `bg-[${theme.primaryColor}] text-[${theme.textColor}] hover:bg-[${theme.secondaryColor}]`
                     : "bg-blue-600 text-white hover:bg-blue-700"
                   }`}
+                  style={{
+                    color: theme ? theme.textColor : 'white'
+                  }}
                 >
-                  <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce" />
+                  <ShoppingCart className="mr-2 w-4 h-4 group-hover:animate-bounce"  />
                   Add to Cart
                 </Button>
               </div>
