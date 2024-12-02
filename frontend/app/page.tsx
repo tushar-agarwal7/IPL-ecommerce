@@ -9,6 +9,7 @@ import Signup from "@/components/Signup";
 import { Toaster } from "@/components/ui/toaster"
 import Confetti from 'react-confetti'
 import { useTheme } from "./context/ThemeContext";
+import Marquee from "@/components/Marquee";
 
 interface User {
   id: string;
@@ -172,6 +173,7 @@ export default function Home() {
         <Toaster />
         <Hero />
         <ProductSection />
+        <Marquee/>
       </main>
       <Footer />
     </div>

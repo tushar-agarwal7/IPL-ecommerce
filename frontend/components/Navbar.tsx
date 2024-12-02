@@ -196,90 +196,96 @@ const Navbar = () => {
 
       {/* Cart Sidebar */}
       {isCartOpen && (
-        <div 
-          className="fixed top-0 right-0 w-96 h-full bg-white shadow-xl z-50 
-          transform transition-transform duration-300 ease-in-out overflow-y-auto"
-          style={{ backgroundColor: theme ? theme.primaryColor : 'inherit' }}
-        >
-          <div className="p-6"           
-                style={{color:theme?theme.textColor:"inherit"}}
+  <div 
+    className={`fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out bg-opacity-50 bg-black ${
+      isCartOpen ? 'translate-x-0' : 'translate-x-full'
+    }`}
+  >
+    <div 
+      className="absolute top-0 right-0 w-full sm:w-96 h-full bg-white shadow-xl overflow-y-auto" 
+      style={{ backgroundColor: theme ? theme.primaryColor : 'white' }}
+    >
+      <div 
+        className="p-4"
+        style={{ color: theme ? theme.textColor : 'black' }}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Your Cart</h2>
+          <button 
+            onClick={() => setIsCartOpen(false)}
+            className="text-gray-500 hover:text-gray-700"
+            style={{ color: theme ? theme.textColor : 'inherit' }}
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Your Cart</h2>
-              <button 
-                onClick={() => setIsCartOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-                style={{color:theme?theme.textColor:"inherit"}}
-              >
-                Close
-              </button>
-            </div>
-
-            {cart.length === 0 ? (
-              <p className="text-center text-gray-500">Your cart is empty</p>
-            ) : (
-              <>
-                {cart.map((item) => (
-                  <div 
-                    key={item._id} 
-                    className="flex items-center justify-between border-b py-4"
-                  >
-                    <div className="flex items-center">
-                      <Image 
-                        src={item.image || '/jersey.jpg'} 
-                        alt={item.name} 
-                        width={50} 
-                        height={50} 
-                        className="object-cover mr-4" 
-                      />
-                      <div>
-                        <h3 className="font-bold">{item.name}</h3>
-                        <p>₹{item.price}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <button 
-                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                        className="px-2 py-1 bg-gray-200 text-black rounded-l"
-                      >
-                        -
-                      </button>
-                      <span className="px-4 py-1 text-black bg-gray-100">{item.quantity}</span>
-                      <button 
-                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                        className="px-2 py-1 text-black bg-gray-200 rounded-r"
-                      >
-                        +
-                      </button>
-                      <button 
-                        onClick={() => removeFromCart(item._id)}
-                        className="ml-4 text-red-500 hover:text-red-700"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <div className="mt-6">
-                  <div className="flex justify-between font-bold text-xl">
-                    <span>Total</span>
-                    <span>₹{calculateTotal()}</span>
-                  </div>
-                  <Button 
-                    className="w-full mt-4"
-                    onClick={() => {
-                      // Implement checkout logic here
-                      toast.success('Checkout functionality coming soon!');
-                    }}
-                  >
-                    Checkout
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
+            Close
+          </button>
         </div>
-      )}
+
+        {cart.length === 0 ? (
+          <p className="text-center text-gray-500">Your cart is empty</p>
+        ) : (
+          <>
+            {cart.map((item) => (
+              <div 
+                key={item._id} 
+                className="flex items-center justify-between border-b py-4"
+              >
+                <div className="flex items-center">
+                  <Image 
+                    src={item.image || '/jersey.jpg'} 
+                    alt={item.name} 
+                    width={50} 
+                    height={50} 
+                    className="object-cover mr-4" 
+                  />
+                  <div>
+                    <h3 className="font-bold text-sm">{item.name}</h3>
+                    <p className="text-sm">₹{item.price}</p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <button 
+                    onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                    className="px-2 py-1 bg-gray-200 text-black rounded-l"
+                  >
+                    -
+                  </button>
+                  <span className="px-3 py-1 text-black bg-gray-100 text-sm">{item.quantity}</span>
+                  <button 
+                    onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                    className="px-2 py-1 text-black bg-gray-200 rounded-r"
+                  >
+                    +
+                  </button>
+                  <button 
+                    onClick={() => removeFromCart(item._id)}
+                    className="ml-4 text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+            <div className="mt-6">
+              <div className="flex justify-between font-bold text-lg">
+                <span>Total</span>
+                <span>₹{calculateTotal()}</span>
+              </div>
+              <Button 
+                className="w-full mt-4"
+                onClick={() => {
+                  toast.success('Checkout functionality coming soon!');
+                }}
+              >
+                Checkout
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 };
