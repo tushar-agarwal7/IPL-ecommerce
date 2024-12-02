@@ -85,7 +85,7 @@ export default function ProductSection() {
 
       localStorage.setItem('cart', JSON.stringify(newCart));
       
-      toast.success(`${product.name} added to cart`);
+      toast.success(`${product.name} added to cart. Please Refresh your window`);
       
       return newCart;
     });

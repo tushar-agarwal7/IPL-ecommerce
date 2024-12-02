@@ -201,12 +201,15 @@ const Navbar = () => {
           transform transition-transform duration-300 ease-in-out overflow-y-auto"
           style={{ backgroundColor: theme ? theme.primaryColor : 'inherit' }}
         >
-          <div className="p-6">
+          <div className="p-6"           
+                style={{color:theme?theme.textColor:"inherit"}}
+          >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Your Cart</h2>
               <button 
                 onClick={() => setIsCartOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
+                style={{color:theme?theme.textColor:"inherit"}}
               >
                 Close
               </button>
@@ -237,14 +240,14 @@ const Navbar = () => {
                     <div className="flex items-center">
                       <button 
                         onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                        className="px-2 py-1 bg-gray-200 rounded-l"
+                        className="px-2 py-1 bg-gray-200 text-black rounded-l"
                       >
                         -
                       </button>
-                      <span className="px-4 py-1 bg-gray-100">{item.quantity}</span>
+                      <span className="px-4 py-1 text-black bg-gray-100">{item.quantity}</span>
                       <button 
                         onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                        className="px-2 py-1 bg-gray-200 rounded-r"
+                        className="px-2 py-1 text-black bg-gray-200 rounded-r"
                       >
                         +
                       </button>
