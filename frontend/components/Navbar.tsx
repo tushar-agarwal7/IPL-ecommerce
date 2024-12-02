@@ -7,6 +7,7 @@ import { UserDropdown } from "./UserDropdown";
 import Image from "next/image";
 import { useTheme } from "@/app/context/ThemeContext";
 import { toast, Toaster } from 'sonner';
+import Confetti from 'react-confetti';
 
 type User = {
   name: string;
@@ -27,7 +28,9 @@ const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isConfettiActive, setIsConfettiActive] = useState(false);
   const { theme } = useTheme();
+  
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -75,9 +78,55 @@ const Navbar = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+  
+    const orderId = Math.random().toString(36).substring(2, 10).toUpperCase();
+    
+    const orderSummary = {
+      orderId,
+      items: cart,
+      total: calculateTotal(),
+      date: new Date().toLocaleDateString(),
+      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString() // 7 days 
+    };
+  
+    toast.info('Processing your order...', {
+      duration: 2000
+    });
+  
+    setTimeout(() => {
+      setIsConfettiActive(true);
+      toast.success('Order Placed Successfully!', {
+        description: `Order #${orderId}\nTotal: ₹${orderSummary.total}\nEstimated Delivery: ${orderSummary.estimatedDelivery}`,
+        duration: 5000
+      });
+  
+      //  Clear cart
+      localStorage.removeItem('cart');
+      setCart([]);
+      setIsCartOpen(false);
+
+      setTimeout(() => {
+        setIsConfettiActive(false);
+      }, 5000);
+    }, 2000);
+  };
+
   return (
     <>
       <Toaster />
+      {isConfettiActive && (
+                  <Confetti
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                  recycle={false}
+                  numberOfPieces={300}
+                />
+      )}
       <header
         className="shadow-md sticky top-0 z-50"
         style={{
@@ -101,9 +150,7 @@ const Navbar = () => {
                 {theme ? theme.name : 'IPL'}
               </h1>
             </Link>
-            {/* Primary Actions */}
             <div className="hidden md:flex items-center gap-6">
-              {/* Shopping Cart Icon */}
               <div 
                 className="relative cursor-pointer"
                 onClick={() => setIsCartOpen(!isCartOpen)}
@@ -272,9 +319,7 @@ const Navbar = () => {
               </div>
               <Button 
                 className="w-full mt-4"
-                onClick={() => {
-                  toast.success('Checkout functionality coming soon!');
-                }}
+                onClick={handleCheckout}
               >
                 Checkout
               </Button>
