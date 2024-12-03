@@ -142,7 +142,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen font-serif relative">
+    <div className="min-h-screen relative">
       {showConfetti && (
         <div className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none">
           <Confetti
@@ -173,7 +173,7 @@ export default function Home() {
         </div>
         <Toaster />
         <Hero />
-        <CardsCarousel/>
+                <CardsCarousel/>
 
         <ProductSection />
         <Marquee/>
