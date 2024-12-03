@@ -99,7 +99,7 @@ export default function ProfilePage() {
 
       const response = await axios.put(
         `${BACKEND_URL}/api/v1/user/update-team`,
-        { color: selectedColor },
+        { color: selectedColor ,userId:userData?.id},
         {
           headers: {
             Authorization: `Bearer ${token}`,

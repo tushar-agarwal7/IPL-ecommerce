@@ -142,6 +142,7 @@ export default function Home() {
   }
 
   return (
+    
     <div className="min-h-screen relative">
       {showConfetti && (
         <div className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none">
@@ -163,9 +164,10 @@ export default function Home() {
             : 'black'
         }}
       >
+
         <div className="text-center py-4">
           <h2
-            className="text-2xl font-bold font-mono animate-fade-in"
+            className="text-2xl font-bold font-sans animate-fade-in"
             style={{ color: theme?.textColor }}
           >
             Welcome to the {theme?.name || 'IPL'} Fan Store! 🎉🎊

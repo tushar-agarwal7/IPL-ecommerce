@@ -10,7 +10,8 @@ A IPL ecommerce platform designed for IPL fans! This project allows users to sel
 - Mongodb database is used to store the incomming data.
 - Tailwind CSS is used for styling, ensuring a responsive and visually appealing design.
 - JWT Authentication is implemented for secure user login and session management.
-- Responsive UI for a seamless experience on all devices. 
+- Responsive UI for a seamless experience on all devices.
+- Cart Functionality: Users can add their favorite team merchandise to the cart, manage quantities, and proceed to checkout.
 - Team Selection Functionality: Users select their favorite IPL team during signup, and the website dynamically customizes its UI based on their chosen team.
 - Deployment: The backend is deployed on **Railway**, ensuring a scalable and reliable server environment. The frontend is hosted on **Vercel**, providing fast and efficient content delivery.
 

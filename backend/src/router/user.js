@@ -35,25 +35,6 @@ const signinBody = z.object({
     password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-
-const authenticateUser = (req, res, next) => {
-    const token = req.headers.authorization?.split(" ")[1]; // Get the token from the `Authorization` header
-    if (!token) {
-        return res.status(401).json({ msg: "No token provided, access denied" });
-    }
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET); // Decode the token
-        req.user = decoded; // Attach the user info to the request
-        next(); // Proceed to the next middleware/route handler
-    } catch (error) {
-        console.error("JWT authentication error:", error);
-        return res.status(401).json({ msg: "Invalid token, access denied" });
-    }
-};
-
-
-
 router.post("/signup", async (req, res) => {
     const parsed = signupBody.safeParse(req.body);
 
@@ -148,34 +129,24 @@ router.post("/signin", async (req, res) => {
     }
 });
 
-router.put("/update-team",authenticateUser,  async (req, res) => {
+router.put("/update-team", async (req, res) => {
     try {
       
 
-        const { color } = req.body;
-        const userId = req.user.userId;
+        const { color,userId } = req.body;
 
-        // Find the user
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ msg: "User not found" });
         }
 
-        // Update team based on color
         const newTeam = IPL_TEAM_COLORS[color].name;
         
         // Update user's team
         user.team = newTeam;
         await user.save();
 
-        // Generate new token with updated user info
-        const token = jwt.sign(
-            { userId: user._id },
-            JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
-        // Respond with updated user info
+      
         return res.status(200).json({
             msg: "Team updated successfully",
             token,
