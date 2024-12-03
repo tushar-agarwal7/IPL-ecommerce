@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/toaster"
 import Confetti from 'react-confetti'
 import { useTheme } from "./context/ThemeContext";
 import Marquee from "@/components/Marquee";
+import { CardsCarousel } from "@/components/Cardcarousel";
 
 interface User {
   id: string;
@@ -172,6 +173,8 @@ export default function Home() {
         </div>
         <Toaster />
         <Hero />
+        <CardsCarousel/>
+
         <ProductSection />
         <Marquee/>
       </main>

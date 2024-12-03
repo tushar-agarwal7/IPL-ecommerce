@@ -118,12 +118,12 @@ export default function ProductSection() {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-4 py-16 flex flex-col relative"
-      style={{
-        background: theme
-          ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
-          : 'transparent'
-      }}
+      className="max-w-7xl mx-auto px-4 pb-20 flex flex-col relative"
+      // style={{
+      //   background: theme
+      //     ? `linear-gradient(to bottom, ${theme.gradient.from}20, ${theme.gradient.to}20)`
+      //     : 'transparent'
+      // }}
     >
       <Toaster />
 
