@@ -70,6 +70,7 @@ router.post("/signup", async (req, res) => {
         });
 
         const userId = user._id;
+        const token = jwt.sign({ userId }, JWT_SECRET,{ expiresIn: '7d' });
 
 
         return res.status(200).json({
@@ -105,7 +106,11 @@ router.post("/signin", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ msg: "Invalid username or password" });
         }
-
+        const token = jwt.sign(
+            { userId: user._id }, 
+            JWT_SECRET, 
+            { expiresIn: '7d' }
+        );
        
           return res.status(200).json({
             msg: "Signin successful",
