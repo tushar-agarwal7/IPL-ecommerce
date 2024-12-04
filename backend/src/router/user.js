@@ -145,7 +145,8 @@ router.put("/update-team", async (req, res) => {
         user.team = newTeam;
         await user.save();
 
-      
+        const token = jwt.sign({ userId }, JWT_SECRET,{ expiresIn: '7d' });
+
         return res.status(200).json({
             msg: "Team updated successfully",
             token,
